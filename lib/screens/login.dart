@@ -1,4 +1,3 @@
-import 'package:email_project/screens/signup.dart';
 import 'package:email_project/screens/mainpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +74,8 @@ class _LoginPageState extends State<LoginPage> {
           margin: EdgeInsets.all(20.0),
           child: TextFormField(
             style: TextStyle(color: Colors.white),
+            cursorColor: Colors.white,
+            obscureText: true,
             controller: passwordController,
             decoration: InputDecoration(
                 labelText: "Password",
@@ -107,13 +108,17 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget signUpButton(BuildContext context) {
     return (
-        ElevatedButton(onPressed: () {
+        ElevatedButton(onPressed: () async {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text,
+          );
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => SignUpPage()));
+              MaterialPageRoute(builder: (context) => LoginPage()));
         },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 30.0),
-              child: Text('SignUp'),
+              child: Text('Signup'),
             )
 
         )

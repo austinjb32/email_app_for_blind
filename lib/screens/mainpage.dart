@@ -1,3 +1,4 @@
+import 'package:email_project/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -17,14 +18,15 @@ class _MainScreenState extends State<MainScreen> {
 
   GlobalKey<CurvedNavigationBarState> _NavKey=GlobalKey();
 
-  var PagesAll=[mailScreen(),SpeechSampleApp()];
+  var PagesAll=[mailScreen(),SpeechSampleApp(),ProfilePage()];
   var myindex=0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        items: [Icon(Icons.inbox),Icon(Icons.message)],
+        key:_NavKey,
+        items: [Icon(Icons.inbox),Icon(Icons.message),Icon(Icons.logout)],
         buttonBackgroundColor: Colors.white,
         onTap: (index) {
           setState(() {
