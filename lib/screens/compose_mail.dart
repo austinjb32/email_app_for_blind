@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 import 'package:dio/dio.dart';
-import 'package:email_project/screens/mail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -79,26 +76,11 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Compose Mail"),
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[Colors.black, Colors.blue]),
-            ),
-          ),
+          foregroundColor: Colors.black87,
+          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
         ),
         body: Container(
           height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xff43cea2), Color(0xff185a9d)],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              stops: [0.4, 0.7],
-              tileMode: TileMode.repeated,
-            ),
-          ),
           child:SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -506,11 +488,18 @@ class SessionOptionsWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left:20.0),
-              child: DropdownButton<String>(
+          Container(
+                margin: EdgeInsets.only(top:20.0),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                    color:Colors.transparent, //background color of dropdown button
+                    border: Border.all(color: Colors.transparent, width:3), //border of dropdown button
+                    borderRadius: BorderRadius.circular(50), //border raiuds of dropdown button
+                ),
+                  child:Padding(
+                    padding: EdgeInsets.only(left:5, right:5),
+                child:DropdownButton<String>(
+
                 onChanged: (selectedVal) => switchLang(selectedVal),
                 value: currentLocaleId,
                 items: localeNames
@@ -521,10 +510,16 @@ class SessionOptionsWidget extends StatelessWidget {
                   ),
                 )
                     .toList(),
-              ),
-              )
-            ],
-          )
+                  icon: Padding( //Icon at tail, arrow bottom is default icon
+                      padding: EdgeInsets.only(left:5),
+                      child:Icon(Icons.arrow_circle_down_sharp)
+                  ), //Icon color
+                  style: TextStyle(  //te
+                      color: Colors.blueGrey, //Font color
+                      fontSize: 17 //font size on dropdown button
+                  ),
+                ),
+              )))
           // Row(
           //   children: [
           //     Text('pauseFor: '),
@@ -569,13 +564,14 @@ class InitSpeechWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initSpeechState();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        TextButton(
-          onPressed: hasSpeech ? null : initSpeechState,
-          child: Text('Initialize'),
-        ),
+        // TextButton(
+        //   onPressed: hasSpeech ? initSpeechState:null,
+        //   child: Text('Initialize'),
+        // ),
       ],
     );
   }

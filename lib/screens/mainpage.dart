@@ -1,7 +1,9 @@
 import 'package:email_project/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
+import 'about.dart';
 import 'compose_mail.dart';
 import 'mail_screen.dart';
 
@@ -16,26 +18,69 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  GlobalKey<CurvedNavigationBarState> _NavKey=GlobalKey();
 
-  var PagesAll=[mailScreen(),SpeechSampleApp(),ProfilePage()];
-  var myindex=0;
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+   List<Widget> _widgetOptions = <Widget>[mailScreen(),SpeechSampleApp(),ProfilePage(),About()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        key:_NavKey,
-        items: [Icon(Icons.inbox),Icon(Icons.message),Icon(Icons.logout)],
-        buttonBackgroundColor: Colors.white,
-        onTap: (index) {
-          setState(() {
-            myindex = index;
-          });
-        },
-        animationCurve: Curves.fastLinearToSlowEaseIn,color: Colors.pinkAccent,
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      body: PagesAll[myindex],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Colors.black.withOpacity(.1),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            child: GNav(
+              rippleColor: Colors.grey[300]!,
+              hoverColor: Colors.grey[100]!,
+              gap: 8,
+              activeColor: Colors.black,
+              iconSize: 24,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: Duration(milliseconds: 400),
+              tabBackgroundColor: Colors.grey[100]!,
+              color: Colors.black,
+              tabs: [
+                GButton(
+                  icon: LineIcons.home,
+                  text: 'Home',
+                ),
+                GButton(
+                  icon: LineIcons.penNib,
+                  text: 'Write',
+                ),
+                GButton(
+                  icon: LineIcons.user,
+                  text: 'Profile',
+                ),
+                GButton(
+                  icon: LineIcons.heart,
+                  text:'About Us'
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:text_to_speech/text_to_speech.dart';
@@ -8,14 +7,14 @@ import 'package:text_to_speech/text_to_speech.dart';
 //   runApp(MyApp());
 // }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class TTS extends StatefulWidget {
+  const TTS({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _TTSState createState() => _TTSState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _TTSState extends State<TTS> {
   final String defaultLanguage = 'en-US';
 
   TextToSpeech tts = TextToSpeech();
@@ -283,4 +282,5 @@ class _MyAppState extends State<MyApp> {
     tts.setPitch(pitch);
     tts.speak(text);
   }
+
 }

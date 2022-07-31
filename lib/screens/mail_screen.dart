@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:email_project/screens/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_tts/flutter_tts.dart';
 
-import 'compose_mail.dart';
 
 
 class Album {
@@ -81,13 +80,14 @@ class Album {
     class mailScreen extends StatefulWidget {
       const mailScreen({Key? key}) : super(key: key);
 
-
-
       @override
       State<mailScreen> createState() => _mailScreenState();
     }
 
     class _mailScreenState extends State<mailScreen> {
+
+      final FlutterTts flutterTts = FlutterTts();
+
 
 
 
@@ -105,155 +105,233 @@ class Album {
       }
 
       late Future<Album> futureAlbum;
-
-
       @override
       void initState() {
         super.initState();
         futureAlbum = fetchAlbum();
       }
+
     // ·
 
       Widget build(BuildContext context) {
 
-        return MaterialApp(
-              home: Scaffold(
-              appBar: AppBar(
-              title: const Text('Inbox'),
-              backgroundColor: Colors.indigo,
-        ),
-        body:Container(
-            child: SingleChildScrollView(
-            child:Column(
-              children: [
-                Center(
-                  child:Card(
-                    margin: EdgeInsets.all(15.0),
-                    elevation: 8,
-                    shadowColor: Colors.grey,
-                    shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.indigo)),
-                    child:FutureBuilder<Album>(
-                    future: futureAlbum,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                       return( ListTile(
-                         title: Text(snapshot.data!.from),
-                           subtitle:Text('${snapshot.data!.date}\n${snapshot.data!.subject}\n${snapshot.data!.body}'),
-                       ));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
+          return Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      'Mailbox',
+                      style: GoogleFonts.lato(),
+                    ),
+                    foregroundColor: Colors.black87,
+                    backgroundColor: Color.fromRGBO(0, 0, 0, 0),
                   ),
+                  body:Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: SingleChildScrollView(
+                          child:Column(
+                              children: [Card(
+                                  margin: EdgeInsets.all(10.0),
+                                      elevation: 3,
+                                      shadowColor: Color(0xff232F34),
+                                      shape: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                          borderSide: BorderSide(color: Color(0xff4A6572))),
+                                child:Row(
+                                  children: [
+                                    Expanded(child: FutureBuilder<Album>(
+                                      future: futureAlbum,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return(Row(children:[
+                                            Expanded(child: ListTile(
+                                              title: Text(snapshot.data!.from),
+                                              subtitle:Text('${snapshot.data!.date}\n${snapshot.data!.subject}\n${snapshot.data!.body}'),
+                                            ),flex: 5),
+                                            Expanded(
+                                                child:TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      primary: Color(0xffF9AA33),
+                                                    ),
+                                                    onPressed: ()async=>{speak(snapshot.data!.from+snapshot.data!.date+snapshot.data!.subject+snapshot.data!.body)},
+                                                    child: Icon(Icons.volume_up_outlined))),
+                                          ]
+                                          ));
+                                        } else if (snapshot.hasError) {
+                                          return Text('${snapshot.error}');
+                                        }
+
+                                        // By default, show a loading spinner.
+                                        return const Visibility(child: LinearProgressIndicator(minHeight: 5.0),visible: false,);
+                                      },)
+                                    ),
+                                  ],
+                                ),
+                                    ),
+                                Card(
+                                  margin: EdgeInsets.all(10.0),
+                                  elevation: 3,
+                                  shadowColor: Color(0xff232F34),
+                                  shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(color: Color(0xff4A6572))),
+                                  child:Row(
+                                    children: [
+                                      Expanded(child: FutureBuilder<Album>(
+                                        future: futureAlbum,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return(Row(children:[
+                                              Expanded(child: ListTile(
+                                                title: Text(snapshot.data!.from_one),
+                                                subtitle:Text('${snapshot.data!.date_one}\n${snapshot.data!.subject_one}\n${snapshot.data!.body_one}'),
+                                              ),flex: 5),
+                                              Expanded(
+                                                  child:TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        primary: Color(0xffF9AA33),
+                                                      ),
+                                                      onPressed: ()async=>{speak(snapshot.data!.from_one+snapshot.data!.date_one+snapshot.data!.subject_one+snapshot.data!.body_one)},
+                                                      child: Icon(Icons.volume_up_outlined))),
+                                            ]
+                                            ));
+                                          } else if (snapshot.hasError) {
+                                            return Text('${snapshot.error}');
+                                          }
+
+                                          // By default, show a loading spinner.
+                                          return const Visibility(child: LinearProgressIndicator(minHeight: 5.0),visible: false,);
+                                        },)
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Card(
+                                  margin: EdgeInsets.all(10.0),
+                                  elevation: 3,
+                                  shadowColor: Color(0xff232F34),
+                                  shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(color: Color(0xff4A6572))),
+                                  child:Row(
+                                    children: [
+                                      Expanded(child: FutureBuilder<Album>(
+                                        future: futureAlbum,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return(Row(children:[
+                                              Expanded(child: ListTile(
+                                                title: Text(snapshot.data!.from_two),
+                                                subtitle:Text('${snapshot.data!.date_two}\n${snapshot.data!.subject_two}\n${snapshot.data!.body_two}'),
+                                              ),flex: 5),
+                                              Expanded(
+                                                  child:TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        primary: Color(0xffF9AA33),
+                                                      ),
+                                                      onPressed: ()async=>{speak(snapshot.data!.from_two+snapshot.data!.date_two+snapshot.data!.subject_two+snapshot.data!.body_two)},
+                                                      child: Icon(Icons.volume_up_outlined))),
+                                            ]
+                                            ));
+                                          } else if (snapshot.hasError) {
+                                            return Text('${snapshot.error}');
+                                          }
+
+                                          // By default, show a loading spinner.
+                                          return const Visibility(child: LinearProgressIndicator(minHeight: 5.0),visible: false,);
+                                        },)
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Card(
+                                  margin: EdgeInsets.all(10.0),
+                                  elevation: 3,
+                                  shadowColor: Color(0xff232F34),
+                                  shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(color: Color(0xff4A6572))),
+                                  child:Row(
+                                    children: [
+                                      Expanded(child: FutureBuilder<Album>(
+                                        future: futureAlbum,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return(Row(children:[
+                                              Expanded(child: ListTile(
+                                                title: Text(snapshot.data!.from_three),
+                                                subtitle:Text('${snapshot.data!.date_three}\n${snapshot.data!.subject_three}\n${snapshot.data!.body_three}'),
+                                              ),flex: 5),
+                                              Expanded(
+                                                  child:TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        primary: Color(0xffF9AA33),
+                                                      ),
+                                                      onPressed: ()async=>{speak(snapshot.data!.from_three+snapshot.data!.date_three+snapshot.data!.subject_three+snapshot.data!.body_three)},
+                                                      child: Icon(Icons.volume_up_outlined))),
+                                            ]
+                                            ));
+                                          } else if (snapshot.hasError) {
+                                            return Text('${snapshot.error}');
+                                          }
+
+                                          // By default, show a loading spinner.
+                                          return const Visibility(child: LinearProgressIndicator(minHeight: 5.0),visible: false,);
+                                        },)
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Card(
+                                  margin: EdgeInsets.all(10.0),
+                                  elevation: 3,
+                                  shadowColor: Color(0xff232F34),
+                                  shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(color: Color(0xff4A6572))),
+                                  child:Row(
+                                    children: [
+                                      Expanded(child: FutureBuilder<Album>(
+                                        future: futureAlbum,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return(Row(children:[
+                                              Expanded(child: ListTile(
+                                                title: Text(snapshot.data!.from_two),
+                                                subtitle:Text('${snapshot.data!.date_four}\n${snapshot.data!.subject_four}\n${snapshot.data!.body_four}'),
+                                              ),flex: 5),
+                                              Expanded(
+                                                  child:TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        primary: Color(0xffF9AA33),
+                                                      ),
+                                                      onPressed: ()async=>{speak(snapshot.data!.from_four+snapshot.data!.date_four+snapshot.data!.subject_four+snapshot.data!.body_four)},
+                                                      child: Icon(Icons.volume_up_outlined))),
+                                            ]
+                                            ));
+                                          } else if (snapshot.hasError) {
+                                            return Text('${snapshot.error}');
+                                          }
+
+                                          // By default, show a loading spinner.
+                                          return const LinearProgressIndicator(minHeight: 5.0);
+                                        },)
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                              ]
+                          )
+                      )
                   )
-                ),
-                Card(
-                  margin: EdgeInsets.all(15.0),
-                  elevation: 4,
-                  shadowColor: Colors.grey,
-                  shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.indigo)),
-                  child:FutureBuilder<Album>(
-                    future: futureAlbum,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return( ListTile(
-                          title: Text(snapshot.data!.from_one),
-                          subtitle:Text('${snapshot.data!.date_one}\n${snapshot.data!.subject_one}\n${snapshot.data!.body_one}'),
-                        ));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
+              );
+        }
 
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                ),
-                Card(
-                  margin: EdgeInsets.all(15.0),
-                  elevation: 4,
-                  shadowColor: Colors.grey,
-                  shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.indigo)),
-                  child:FutureBuilder<Album>(
-                    future: futureAlbum,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return( ListTile(
-                          title: Text(snapshot.data!.from_two),
-                          subtitle:Text('${snapshot.data!.date_two}\n${snapshot.data!.subject_two}\n${snapshot.data!.body_two}'),
-                        ));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                ),
-                Card(
-                  margin: EdgeInsets.all(15.0),
-                  elevation: 4,
-                  shadowColor: Colors.grey,
-                  shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.indigo)),
-                  child:FutureBuilder<Album>(
-                    future: futureAlbum,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return( ListTile(
-                          title: Text(snapshot.data!.from_three),
-                          subtitle:Text('${snapshot.data!.date_three}\n${snapshot.data!.subject_three}\n${snapshot.data!.body_three}'),
-                        ));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                ),
-                Card(
-                  margin: EdgeInsets.all(15.0),
-                  elevation: 4,
-                  shadowColor: Colors.grey,
-                  shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.indigo)),
-                  child:FutureBuilder<Album>(
-                    future: futureAlbum,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return( ListTile(
-                          title: Text(snapshot.data!.from_four),
-                          subtitle:Text('${snapshot.data!.date_four}\n${snapshot.data!.subject_four}\n${snapshot.data!.body_four}'),
-                        ));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                ),
-
-        ]
-        )
-        )
-        )
-        )
-        );
+  speak(String text) async {
+    flutterTts.setLanguage("en-Us");
+    await flutterTts.setVolume(1.0);
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setPitch(1.0);
+    await flutterTts.speak(text);
+  }
       }
-    }

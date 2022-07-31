@@ -1,8 +1,7 @@
 import 'package:email_project/screens/mainpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:google_fonts/google_fonts.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -19,22 +18,21 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Auth User (Logged'+(user ==null ? 'out':'in')+')'),
-      ),
       body: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xffaa076b), Color(0xff61045f)],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              stops: [0.4, 0.7],
-              tileMode: TileMode.repeated,
-            ),
-          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom:8.0),
+                child: Text('Login',
+                  style: GoogleFonts.ubuntu(
+                    textStyle: Theme.of(context).textTheme.headline4,
+                    fontSize: 48,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87
+                  ),
+                ),
+              ),
               emailField(),
               passwordField(),
               Row(
@@ -54,15 +52,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget emailField() {
     return (
         Container(
-          margin: EdgeInsets.all(20.0),
-          child: TextFormField(
-            style: TextStyle(color: Colors.white),
-            cursorColor: Colors.white,
-            controller: emailController,
+          margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+          child: TextField(
             decoration: InputDecoration(
-                labelText: "Email",
-                hintText: "example@email.com"
+                labelText: "Username",
+                hintText: "username@example.com",
+                border: OutlineInputBorder()
             ),
+            cursorColor: Color(0xff232F34),
+            controller: emailController,
           ),
         )
     );
@@ -71,16 +69,17 @@ class _LoginPageState extends State<LoginPage> {
   Widget passwordField() {
     return (
         Container(
-          margin: EdgeInsets.all(20.0),
-          child: TextFormField(
-            style: TextStyle(color: Colors.white),
-            cursorColor: Colors.white,
+          margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+          child: TextField(
+          decoration: InputDecoration(
+              labelText: "Password",
+              hintText: "Password",
+              border: OutlineInputBorder()
+    ),
+            style: TextStyle(color: Colors.black87),
+            cursorColor: Color(0xff232F34),
             obscureText: true,
             controller: passwordController,
-            decoration: InputDecoration(
-                labelText: "Password",
-                hintText: "Password"
-            ),
           ),
         )
     );
@@ -100,9 +99,25 @@ class _LoginPageState extends State<LoginPage> {
           );
 
         }, child:Container(
-        margin: EdgeInsets.symmetric(horizontal: 30.0),
-        child: Text('Login'),
-    ),)
+        margin: EdgeInsets.symmetric(horizontal: 30.0,vertical: 12.0),
+        child: Text('Login',
+          style: GoogleFonts.ubuntu(
+              fontSize: 20,
+              color: Colors.black87
+          ),
+        ),
+    ),style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Colors.black12)
+                )
+            )
+        )
+        )
     );
   }
 
@@ -116,9 +131,24 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => LoginPage()));
         },
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 30.0),
-              child: Text('Signup'),
+            child:Container(
+              margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+              child: Text('Sign Up',
+                style: GoogleFonts.ubuntu(
+                    fontSize: 20,
+                    color: Colors.white
+                ),
+              ),
+            ),style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.white12)
+                    )
+                )
             )
 
         )

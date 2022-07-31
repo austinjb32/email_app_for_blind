@@ -1,18 +1,10 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:email_project/screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:stack_trace/stack_trace.dart';
-
 import 'firebase_options.dart';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/material.dart';
-
-import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +16,18 @@ Future<void> main() async {
   // SetupFlavors setupFlavors = SetupFlavors();
   // await setupFlavors.setup();
   runApp(MaterialApp(
-    color: Colors.deepPurpleAccent,
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.grey,
+        backgroundColor: Colors.white,
+        accentColor: Colors.white
+      ),
+    ),
     debugShowCheckedModeBanner: false,
     home: AnimatedSplashScreen(
       nextScreen:MyApp(), 
-      splash: Container(
+      splash: SizedBox(
+        height: 200.0,
           child:Image.asset(
               'assets/images/Twilio.png',
               width: 200.0,
