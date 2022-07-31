@@ -69,7 +69,9 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
       });
     }
 
+
   }
+
 
   @override
   Widget build(BuildContext context) {

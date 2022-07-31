@@ -161,7 +161,7 @@ class Album {
                                         }
 
                                         // By default, show a loading spinner.
-                                        return const Visibility(child: LinearProgressIndicator(minHeight: 5.0),visible: false,);
+                                        return const  LinearProgressIndicator(minHeight: 5.0);
                                       },)
                                     ),
                                   ],
@@ -199,7 +199,7 @@ class Album {
                                           }
 
                                           // By default, show a loading spinner.
-                                          return const Visibility(child: LinearProgressIndicator(minHeight: 5.0),visible: false,);
+                                          return const LinearProgressIndicator(minHeight: 5.0);
                                         },)
                                       ),
                                     ],
@@ -237,7 +237,7 @@ class Album {
                                           }
 
                                           // By default, show a loading spinner.
-                                          return const Visibility(child: LinearProgressIndicator(minHeight: 5.0),visible: false,);
+                                          return const LinearProgressIndicator(minHeight: 5.0);
                                         },)
                                       ),
                                     ],
@@ -275,7 +275,7 @@ class Album {
                                           }
 
                                           // By default, show a loading spinner.
-                                          return const Visibility(child: LinearProgressIndicator(minHeight: 5.0),visible: false,);
+                                          return const LinearProgressIndicator(minHeight: 5.0);
                                         },)
                                       ),
                                     ],
@@ -330,8 +330,9 @@ class Album {
   speak(String text) async {
     flutterTts.setLanguage("en-Us");
     await flutterTts.setVolume(1.0);
-    await flutterTts.setSpeechRate(0.5);
-    await flutterTts.setPitch(1.0);
+    await flutterTts.setSpeechRate(0.35);
+    await flutterTts.setPitch(0.4);
+    await flutterTts.setVoice({"name": "Karen", "locale": "en-AU"});
     await flutterTts.speak(text);
   }
       }
