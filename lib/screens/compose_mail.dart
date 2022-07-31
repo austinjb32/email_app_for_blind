@@ -2,9 +2,12 @@ import 'dart:async';
 import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+
+bool visible = false;
 
 
 class SpeechSampleApp extends StatefulWidget {
@@ -72,7 +75,6 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
 
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,6 +94,16 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
                 child: Column(
                   children: <Widget>[
                     InitSpeechWidget(_hasSpeech, initSpeechState),
+                    SizedBox(height: 30.0,),
+                    Visibility(child: Text('The message has been sent',
+                      style: GoogleFonts.ubuntu(
+                        textStyle: Theme.of(context).textTheme.headline4,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),visible: visible,),
                     SessionOptionsWidget(
                       _currentLocaleId,
                       _switchLang,
@@ -285,7 +297,7 @@ class RecognitionResultsWidget extends StatelessWidget {
                     child: Column(
                       children:<Widget>[
                        TextField(
-                         style: TextStyle(color: Colors.white),
+                         style: TextStyle(color: Colors.black87),
                           autofocus: true,
                           controller: senderController,
                           decoration: InputDecoration(
@@ -297,7 +309,7 @@ class RecognitionResultsWidget extends StatelessWidget {
                         ),SizedBox(
                           height: 10.0,
                           ),TextField(
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black87),
                           controller: emailController,
                           decoration: InputDecoration(
                               labelText: "To",
@@ -310,7 +322,7 @@ class RecognitionResultsWidget extends StatelessWidget {
                           height: 10.0,
                         ),
                         TextField(
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black87),
                           controller: subjectController,
                           decoration: InputDecoration(
                               labelText: "Subject",
@@ -326,7 +338,7 @@ class RecognitionResultsWidget extends StatelessWidget {
                         TextField(
                           controller: bodyController..text = lastWords,
                           onSubmitted: (text) => {},
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black87),
                           showCursor: true,
                           readOnly: true,
                           maxLines: 5,
@@ -443,13 +455,14 @@ class SpeechControlWidget extends StatelessWidget {
           FloatingActionButton.large(
             child: Icon(Icons.send),
             onPressed: () async{
+              visible=true;
       dio.options.contentType= Headers.formUrlEncodedContentType;
 //or works once
       await dio.post(
       'https://fathomless-coast-00802.herokuapp.com/compose',
       data: {
-        "from":senderController.text.toString(),
-        "to":emailController.text.toString(),
+        "from":senderController.text.toString().trim(),
+        "to":emailController.text.toString().trim(),
         "subject":subjectController.text.toString(),
         "body":bodyController.text.toString(),
       },

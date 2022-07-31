@@ -13,7 +13,7 @@
         <package android:name="com.google.android.googlequicksearchbox"/>
     </queries>
    <application
-        android:label="email_project"
+        android:label="B-Mail"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
