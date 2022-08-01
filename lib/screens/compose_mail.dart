@@ -521,17 +521,16 @@ class SessionOptionsWidget extends StatelessWidget {
                   child:Padding(
                     padding: EdgeInsets.only(left:5, right:5),
                 child:DropdownButton<String>(
-
-                onChanged: (selectedVal) => switchLang(selectedVal),
-                value: currentLocaleId,
-                items: localeNames
-                    .map(
-                      (localeName) => DropdownMenuItem(
-                    value: localeName.localeId,
-                    child: Text(localeName.name),
-                  ),
-                )
-                    .toList(),
+                  onChanged: (selectedVal) => switchLang(selectedVal),
+                  value: currentLocaleId,
+                  items: localeNames
+                      .map(
+                        (localeName) => DropdownMenuItem(
+                      value: localeName.localeId,
+                      child: Text(localeName.name),
+                    ),
+                  )
+                      .toList(),
                   icon: Padding( //Icon at tail, arrow bottom is default icon
                       padding: EdgeInsets.only(left:5),
                       child:Icon(Icons.arrow_circle_down_sharp)
