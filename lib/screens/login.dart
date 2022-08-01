@@ -1,7 +1,9 @@
 import 'package:email_project/screens/mainpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -54,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
           child: TextField(
+            enableIMEPersonalizedLearning: true,
             decoration: InputDecoration(
                 labelText: "Username",
                 hintText: "username@example.com",
@@ -88,6 +91,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget submitButton(BuildContext context) {
     return (
         ElevatedButton(onPressed: () async {
+          HapticFeedback.heavyImpact();
           await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text,
@@ -124,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget signUpButton(BuildContext context) {
     return (
         ElevatedButton(onPressed: () async {
+         HapticFeedback.heavyImpact();
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text,

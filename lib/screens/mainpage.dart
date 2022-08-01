@@ -1,6 +1,5 @@
 import 'package:email_project/screens/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'about.dart';
@@ -47,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
               gap: 8,
-              activeColor: Colors.black,
+              activeColor: Color(0xffF9AA33),
               iconSize: 24,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: Duration(milliseconds: 400),
@@ -57,18 +56,22 @@ class _MainScreenState extends State<MainScreen> {
                 GButton(
                   icon: LineIcons.home,
                   text: 'Home',
+                  haptic: true,
                 ),
                 GButton(
                   icon: LineIcons.penNib,
                   text: 'Write',
+                  haptic: true,
                 ),
                 GButton(
                   icon: LineIcons.user,
                   text: 'Profile',
+                  haptic: true,
                 ),
                 GButton(
                   icon: LineIcons.heart,
-                  text:'About Us'
+                  text:'About Us',
+                  haptic: true,
                 ),
               ],
               selectedIndex: _selectedIndex,

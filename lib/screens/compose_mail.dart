@@ -2,15 +2,21 @@ import 'dart:async';
 import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:flutter/services.dart';
 
-bool visible = false;
+
+
+
+
 
 
 class SpeechSampleApp extends StatefulWidget {
+  const SpeechSampleApp({Key? key}) : super(key: key);
+
+
   @override
   _SpeechSampleAppState createState() => _SpeechSampleAppState();
 }
@@ -39,6 +45,8 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
   void initState() {
     super.initState();
   }
+
+
 
   /// This initializes SpeechToText. That only has to be done
   /// once per application, though calling it again is harmless
@@ -75,9 +83,12 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
 
   }
 
-  @override
+
+    @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+
+      return Scaffold(
         appBar: AppBar(
           title: Text("Compose Mail"),
           foregroundColor: Colors.black87,
@@ -94,16 +105,6 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
                 child: Column(
                   children: <Widget>[
                     InitSpeechWidget(_hasSpeech, initSpeechState),
-                    SizedBox(height: 30.0,),
-                    Visibility(child: Text('The message has been sent',
-                      style: GoogleFonts.ubuntu(
-                        textStyle: Theme.of(context).textTheme.headline4,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black87,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),visible: visible,),
                     SessionOptionsWidget(
                       _currentLocaleId,
                       _switchLang,
@@ -300,6 +301,7 @@ class RecognitionResultsWidget extends StatelessWidget {
                          style: TextStyle(color: Colors.black87),
                           autofocus: true,
                           controller: senderController,
+                         enableIMEPersonalizedLearning: true,
                           decoration: InputDecoration(
                               labelText: "From",
                               hintText: "From",
@@ -311,6 +313,7 @@ class RecognitionResultsWidget extends StatelessWidget {
                           ),TextField(
                           style: TextStyle(color: Colors.black87),
                           controller: emailController,
+                          enableIMEPersonalizedLearning: true,
                           decoration: InputDecoration(
                               labelText: "To",
                               hintText: "To",
@@ -439,7 +442,6 @@ class SpeechControlWidget extends StatelessWidget {
   final void Function() cancelListening;
 
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -450,12 +452,18 @@ class SpeechControlWidget extends StatelessWidget {
         children: <Widget>[
           FloatingActionButton.large(
             onPressed: !hasSpeech || isListening ? null:startListening,
-            child: Icon(Icons.mic),
+            child: IconButton(onPressed:()=>{ HapticFeedback.mediumImpact()}, icon:Icon(Icons.mic),)
+
           ),
           FloatingActionButton.large(
             child: Icon(Icons.send),
             onPressed: () async{
-              visible=true;
+              final snackBar = SnackBar(
+                content: const Text('Message Sent'),
+                backgroundColor: (Colors.black87),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              SystemSound.play(SystemSoundType.alert);
       dio.options.contentType= Headers.formUrlEncodedContentType;
 //or works once
       await dio.post(
