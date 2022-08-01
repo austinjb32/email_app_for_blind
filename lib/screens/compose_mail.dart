@@ -452,9 +452,8 @@ class SpeechControlWidget extends StatelessWidget {
         children: <Widget>[
           FloatingActionButton.large(
             onPressed: !hasSpeech || isListening ? null:startListening,
-            child: IconButton(onPressed:()=>{ HapticFeedback.mediumImpact()}, icon:Icon(Icons.mic),)
+            child: Icon(Icons.mic),),
 
-          ),
           FloatingActionButton.large(
             child: Icon(Icons.send),
             onPressed: () async{
